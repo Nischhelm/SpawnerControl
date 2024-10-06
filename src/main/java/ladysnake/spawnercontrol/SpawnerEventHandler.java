@@ -9,6 +9,7 @@ import ladysnake.spawnercontrol.controlledspawner.IControllableSpawner;
 import ladysnake.spawnercontrol.controlledspawner.TileEntityControlledSpawner;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockMobSpawner;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
@@ -142,9 +143,11 @@ public class SpawnerEventHandler {
             }
             // increments spawn counts and prevents spawns if over the limit
             if (canSpawn) {
-                if (handler.canSpawn()) {
+                if (handler.canSpawn() && !handler.tooManyAlive()) {
                     if (!handler.getConfig().incrementOnMobDeath)
                         handler.incrementSpawnedMobsCount();
+
+                    handler.incrementAliveMobsCount();
 
                     NBTTagCompound compound = new NBTTagCompound();
                     World spawnerWorld = spawner.getSpawnerWorld();
@@ -196,6 +199,7 @@ public class SpawnerEventHandler {
                 IControllableSpawner handler = CapabilityControllableSpawner.getHandler(spawner);
                 if (handler.getConfig().incrementOnMobDeath)
                     handler.incrementSpawnedMobsCount();
+                handler.decrementAliveMobsCount();
             }
         }
     }

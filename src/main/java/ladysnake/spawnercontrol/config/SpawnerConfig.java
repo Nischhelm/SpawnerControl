@@ -21,6 +21,12 @@ public class SpawnerConfig {
     @Config.Comment("When a spawner has spawned this number of mobs over this lifetime, it will get broken automatically")
     public int mobThreshold = 100;
 
+    @Config.Comment("While this number of mobs from this spawner are alive, it will pause spawning")
+    public int aliveMobThreshold = 100;
+
+    @Config.Comment("Pause spawning if too many spawned mobs are alive")
+    public boolean pauseIfTooManyAlive = false;
+
     @Config.Comment("If set to true, spawners will count mobs when they are killed rather than when they are spawned")
     public boolean incrementOnMobDeath = false;
 

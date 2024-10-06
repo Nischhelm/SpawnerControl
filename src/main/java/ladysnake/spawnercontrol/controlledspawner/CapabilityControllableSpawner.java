@@ -31,6 +31,7 @@ public class CapabilityControllableSpawner {
     public static class DefaultControllableSpawner implements IControllableSpawner {
         private final TileEntityMobSpawner spawner;
         private int spawnedMobsCount;
+        private int aliveMobsCount;
 
         public DefaultControllableSpawner() {
             this(null);
@@ -46,6 +47,11 @@ public class CapabilityControllableSpawner {
         }
 
         @Override
+        public void setAliveMobsCount(int mobCount) {
+            this.aliveMobsCount = mobCount;
+        }
+
+        @Override
         public boolean incrementSpawnedMobsCount() {
             SpawnerConfig cfg = getConfig();
             if(++this.spawnedMobsCount >= cfg.mobThreshold) {
@@ -55,6 +61,16 @@ public class CapabilityControllableSpawner {
             }
             this.adjustDelayAfterSpawn(spawner.getSpawnerBaseLogic(), cfg.spawnRateModifier);
             return false;
+        }
+
+        @Override
+        public void incrementAliveMobsCount() {
+            ++aliveMobsCount;
+        }
+
+        @Override
+        public void decrementAliveMobsCount() {
+            --aliveMobsCount;
         }
 
         /**
@@ -82,8 +98,21 @@ public class CapabilityControllableSpawner {
         }
 
         @Override
+        public int getAliveMobsCount() {
+            return aliveMobsCount;
+        }
+
+        @Override
         public boolean canSpawn() {
             return this.spawnedMobsCount < getConfig().mobThreshold;
+        }
+
+        @Override
+        public boolean tooManyAlive() {
+            if(getConfig().pauseIfTooManyAlive)
+                return this.aliveMobsCount >= getConfig().aliveMobThreshold;
+            else
+                return false;
         }
 
         @Nonnull
@@ -129,6 +158,7 @@ public class CapabilityControllableSpawner {
         public NBTBase writeNBT(Capability<IControllableSpawner> capability, IControllableSpawner instance, EnumFacing side) {
             NBTTagCompound nbt = new NBTTagCompound();
             nbt.setInteger("SpawnedMobsCount", instance.getSpawnedMobsCount());
+            nbt.setInteger("AliveMobsCount", instance.getAliveMobsCount());
             return nbt;
         }
 
@@ -136,6 +166,7 @@ public class CapabilityControllableSpawner {
         public void readNBT(Capability<IControllableSpawner> capability, IControllableSpawner instance, EnumFacing side, NBTBase nbt) {
             if (nbt instanceof NBTTagCompound) {
                 instance.setSpawnedMobsCount(((NBTTagCompound) nbt).getInteger("SpawnedMobsCount"));
+                instance.setAliveMobsCount(((NBTTagCompound) nbt).getInteger("AliveMobsCount"));
             }
         }
     }

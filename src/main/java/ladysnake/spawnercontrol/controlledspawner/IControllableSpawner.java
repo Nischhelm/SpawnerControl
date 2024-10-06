@@ -19,6 +19,12 @@ public interface IControllableSpawner {
     int getSpawnedMobsCount();
 
     boolean canSpawn();
+    boolean tooManyAlive();
 
     SpawnerConfig getConfig();
+
+    void incrementAliveMobsCount();
+    void decrementAliveMobsCount();
+    void setAliveMobsCount(int var1);
+    int getAliveMobsCount();
 }
