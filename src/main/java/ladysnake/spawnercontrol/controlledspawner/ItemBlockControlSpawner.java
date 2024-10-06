@@ -21,7 +21,7 @@ public class ItemBlockControlSpawner extends ItemBlock {
     @Override
     public String getItemStackDisplayName(@Nonnull ItemStack stack) {
         // in case someone makes a custom lang file to translate their spawner names
-        if (I18n.canTranslate(getUnlocalizedName(stack) + ".name"))
+        if (I18n.canTranslate(getTranslationKey(stack) + ".name"))
             return super.getItemStackDisplayName(stack);
         // return a default readable value
         return I18n.translateToLocalFormatted(DEFAULT_LANG_KEY, name).trim();

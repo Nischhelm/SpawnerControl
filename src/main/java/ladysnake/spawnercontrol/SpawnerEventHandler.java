@@ -233,7 +233,7 @@ public class SpawnerEventHandler {
                             ItemStack stack = drop.getItem();
                             for (String s : entry.removedItems) {
                                 String[] split = s.split(":");
-                                if (stack.getUnlocalizedName().equals(split[0] + ":" + split[1])
+                                if (stack.getTranslationKey().equals(split[0] + ":" + split[1])
                                         && (split.length < 3 || stack.getMetadata() == Integer.parseInt(split[2]))) {
                                     drops.remove(drop);
                                 }

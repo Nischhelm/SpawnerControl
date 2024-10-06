@@ -42,7 +42,7 @@ public class SpawnerConfigHolder {
     public Block createBlock() {
         return new BlockControlledSpawner(getConfigObject())
                 .setRegistryName(this.registryName)
-                .setUnlocalizedName("msc." + name)
+                .setTranslationKey("msc." + name)
                 .setCreativeTab(SpawnerControl.creativeTab);
     }
 

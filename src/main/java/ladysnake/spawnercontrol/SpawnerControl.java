@@ -14,6 +14,7 @@ import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.client.event.ModelRegistryEvent;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.capabilities.CapabilityManager;
@@ -57,12 +58,12 @@ public class SpawnerControl {
         CapabilityManager.INSTANCE.register(IControllableSpawner.class, new CapabilityControllableSpawner.Storage(), CapabilityControllableSpawner.DefaultControllableSpawner::new);
         // No need to register a tile entity that's not used anywhere
         if (MSCConfig.customSpawners.length > 0)
-            GameRegistry.registerTileEntity(TileEntityControlledSpawner.class, "spawnercontrol:controlled_spawner");
+            GameRegistry.registerTileEntity(TileEntityControlledSpawner.class,new ResourceLocation("spawnercontrol:controlled_spawner"));
         if (MSCConfig.makeCreativeTab) {
             creativeTab = new CreativeTabs(MOD_ID) {
                 @Nonnull
                 @Override
-                public ItemStack getTabIconItem() {
+                public ItemStack createIcon() {
                     return new ItemStack(Blocks.MOB_SPAWNER);
                 }
             };

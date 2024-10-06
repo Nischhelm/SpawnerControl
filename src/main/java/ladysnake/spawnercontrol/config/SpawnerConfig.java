@@ -75,7 +75,7 @@ public class SpawnerConfig {
             List<String> addedItems = Arrays.asList(defaultValues.addedItems);
             for (String s : xpMultipliers) {
                 String[] split = s.split(":");
-                if (split[0].equals(rl.getResourcePath()) && split[1].equals(rl.getResourceDomain())) {
+                if (split[0].equals(rl.getPath()) && split[1].equals(rl.getNamespace())) {
                     try {
                         xpMultiplier = Float.parseFloat(split[2]);
                         flatXpIncrease = split.length > 3 ? Integer.parseInt(split[3]) : defaultValues.flatXpIncrease;
@@ -88,7 +88,7 @@ public class SpawnerConfig {
             for (String s : itemDropRemovals) {
                 String[] split = s.split(",");
                 String[] mobSplit = split[0].split(":");
-                if (mobSplit[0].equals(rl.getResourcePath()) && mobSplit[1].equals(rl.getResourceDomain())) {
+                if (mobSplit[0].equals(rl.getPath()) && mobSplit[1].equals(rl.getNamespace())) {
                     try {
                         removedItems = Arrays.asList(split);
                         removedItems.remove(0);
@@ -101,7 +101,7 @@ public class SpawnerConfig {
             }
             for (String s : itemDropAdditions) {
                 String[] split = s.split(":");
-                if (split[0].equals(rl.getResourcePath()) && split[1].equals(rl.getResourceDomain())) {
+                if (split[0].equals(rl.getPath()) && split[1].equals(rl.getNamespace())) {
                     try {
                         addedItems = Arrays.asList(split);
                         addedItems.remove(0);

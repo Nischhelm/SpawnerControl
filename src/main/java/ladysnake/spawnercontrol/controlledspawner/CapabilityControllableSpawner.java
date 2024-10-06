@@ -12,6 +12,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.common.capabilities.Capability;
 import net.minecraftforge.common.capabilities.CapabilityInject;
 import net.minecraftforge.common.capabilities.ICapabilitySerializable;
+import net.minecraftforge.common.util.Constants;
 
 import javax.annotation.Nonnull;
 import javax.annotation.Nullable;
@@ -60,8 +61,19 @@ public class CapabilityControllableSpawner {
          * Should be called after every spawn to tweak the cooldown according to the config
          */
         protected void adjustDelayAfterSpawn(MobSpawnerBaseLogic spawnerBaseLogic, double spawnRateModifier) {
-            spawnerBaseLogic.minSpawnDelay *= spawnRateModifier;
-            spawnerBaseLogic.maxSpawnDelay *= spawnRateModifier;
+            NBTTagCompound tags = new NBTTagCompound();
+            spawnerBaseLogic.writeToNBT(tags);
+            int minSpawnDelay = tags.getInteger("MinSpawnDelay");
+            int maxSpawnDelay = tags.getInteger("MaxSpawnDelay");
+
+            minSpawnDelay = (int) (minSpawnDelay*spawnRateModifier);
+            maxSpawnDelay = (int) (maxSpawnDelay*spawnRateModifier);
+
+            tags.setInteger("MinSpawnDelay",minSpawnDelay);
+            tags.setInteger("MaxSpawnDelay",maxSpawnDelay);
+
+            spawnerBaseLogic.readFromNBT(tags);
+
         }
 
         @Override
